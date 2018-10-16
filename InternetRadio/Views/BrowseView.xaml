@@ -1,0 +1,117 @@
+﻿<UserControl
+    x:Class="InternetRadio.Views.BrowseView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:InternetRadio.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:InternetRadioShared.Models"
+    xmlns:triggers="using:InternetRadio.Triggers"
+    mc:Ignorable="d"
+    d:DesignHeight="600"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <!--RadioItemTemplate-->
+        <DataTemplate x:Key="RadioItemTemplate" x:DataType="models:Radio">
+            <UserControl>
+                <Grid
+                    x:Name="RadioItemGrid"
+                    Holding="RadioItem_OpenFlyoutMenu"
+                    RightTapped="RadioItem_OpenFlyoutMenu"
+                    FlyoutBase.AttachedFlyout="{StaticResource RadioItemMenuFlyout}"
+                    Padding="12,8">
+                    <!--visual states-->
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup>
+                            <VisualState>
+                                <VisualState.StateTriggers>
+                                    <triggers:UserInteractionModeTrigger UserInteractionMode="Touch"/>
+                                </VisualState.StateTriggers>
+                                <VisualState.Setters>
+                                    <Setter Target="RadioItemGrid.Padding" Value="12,12"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle 
+                        Fill="{StaticResource MediumBackgroundBrush}" 
+                        Width="32" 
+                        Height="32"/>
+                    <TextBlock 
+                        Text="{x:Bind Title}" 
+                        Style="{StaticResource BaseTextBlockStyle}"
+                        FontWeight="Normal"
+                        VerticalAlignment="Center"
+                        Padding="12,0,0,0"
+                        Grid.Column="1"/>
+                </Grid>
+            </UserControl>
+        </DataTemplate>
+        <!--RadiosListViewStyle-->
+        <Style x:Key="RadiosListViewStyle" TargetType="ListView">
+            <Setter Property="Margin" Value="-12,0,-12,0"/>
+        </Style>
+        <!--RadiosListViewItemStyle-->
+        <Style x:Key="RadiosListViewItemStyle" TargetType="ListViewItem">
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+            <Setter Property="TabNavigation" Value="Local"/>
+            <Setter Property="IsHoldingEnabled" Value="True"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
+            <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource MediumBackgroundBrush}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <ListViewItemPresenter CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" ContentMargin="{TemplateBinding Padding}" CheckMode="Inline" ContentTransitions="{TemplateBinding ContentTransitions}" CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}" DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}" DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}" DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}" FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}" FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}" PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}" ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" SelectedPressedBackground="{ThemeResource SystemControlHighlightListAccentHighBrush}" SelectionCheckMarkVisualEnabled="True" SelectedForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" SelectedPointerOverBackground="{ThemeResource SystemControlHighlightListAccentMediumBrush}" SelectedBackground="{ThemeResource SystemControlHighlightListAccentLowBrush}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--RadioItemMenuFlyout-->
+        <MenuFlyout x:Key="RadioItemMenuFlyout">
+            <MenuFlyoutItem Text="Delete" Click="{x:Bind RadioViewModel.DeleteRadioMenuFlyoutItem_Click}"/>
+        </MenuFlyout>
+    </UserControl.Resources>
+
+    <Grid
+        Transitions="{StaticResource EntranceTransitionCollection}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!--stations-->
+        <ListView
+            x:Name="RadiosListView"
+            SelectionMode="None"
+            IsItemClickEnabled="True"
+            ItemClick="{x:Bind RadioViewModel.RadiosListView_ItemClick}"
+            ItemTemplate="{StaticResource RadioItemTemplate}"
+            ItemsSource="{x:Bind RadioViewModel.Radios, Mode=OneWay}"
+            Style="{StaticResource RadiosListViewStyle}" 
+            ItemContainerStyle="{StaticResource RadiosListViewItemStyle}"/>
+
+        <!--command bar-->
+        <CommandBar
+            Grid.Row="1"
+            Background="{StaticResource MediumBackgroundBrush}"
+            Margin="-12,0">
+            <CommandBar.PrimaryCommands>
+                <AppBarButton x:Name="AddAppBarButton" Label="New" Icon="Add" Click="{x:Bind RadioViewModel.GoToNewRadioPage}"/>
+                <AppBarButton x:Name="RefreshAppBarButton" Label="Refresh" Icon="Refresh" Click="{x:Bind RadioViewModel.RefreshInternetRadioData}"/>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
+    </Grid>
+</UserControl>

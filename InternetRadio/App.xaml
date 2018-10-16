@@ -1,0 +1,50 @@
+﻿<Application
+    x:Class="InternetRadio.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:InternetRadio"
+    xmlns:converters="using:Helpers.Converters"
+    xmlns:controls="using:Helpers.Controls"
+    RequestedTheme="Dark">
+
+    <Application.Resources>
+
+        <ResourceDictionary>
+            <!--Colors & Brushes-->
+            <Color x:Key="SystemAccentColor">#c0392b</Color>
+            <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource SystemAccentColor}"/>
+            <Color x:Key="LightAccentColor">#ca594d</Color>
+            <SolidColorBrush x:Key="LightAccentBrush" Color="{StaticResource LightAccentColor}"/>
+            <Color x:Key="DarkAccentColor">#c5493c</Color>
+            <SolidColorBrush x:Key="DarkAccentBrush" Color="{StaticResource DarkAccentColor}"/>
+            <Color x:Key="BackgroundColor">#262626</Color>
+            <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+            <Color x:Key="MediumBackgroundColor">#3c3c3c</Color>
+            <SolidColorBrush x:Key="MediumBackgroundBrush" Color="{StaticResource MediumBackgroundColor}"/>
+            <Color x:Key="DarkBackgroundColor">#dcdcdc</Color>
+            <SolidColorBrush x:Key="DarkBackgroundBrush" Color="{StaticResource DarkBackgroundColor}"/>
+            <Color x:Key="MediumForegroundColor">#888888</Color>
+            <SolidColorBrush x:Key="MediumForegroundBrush" Color="{StaticResource MediumForegroundColor}"/>
+
+            <!--HamburgerMenu Styles-->
+            <Style x:Key="HamburgerMenuStyle" TargetType="controls:HamburgerMenu">
+                <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+                <Setter Property="HeaderBackground" Value="{StaticResource AccentBrush}"/>
+                <Setter Property="HeaderForeground" Value="White"/>
+                <Setter Property="PaneBackground" Value="{StaticResource MediumBackgroundBrush}"/>
+            </Style>
+
+            <!--Animations-->
+            <TransitionCollection x:Key="EntranceTransitionCollection">
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+
+            <!-- Application-specific resources -->
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <converters:NullableBooleanToBooleanConverter x:Key="NullableBooleanToBooleanConverter" />
+
+        </ResourceDictionary>
+
+    </Application.Resources>
+
+</Application>

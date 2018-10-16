@@ -1,0 +1,35 @@
+﻿<Page
+    x:Class="InternetRadio.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:InternetRadio"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Helpers.Controls"
+    xmlns:vm="using:InternetRadio.ViewModels"
+    xmlns:converters="using:Helpers.Converters"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <!--BooleanToVisibilityConverter-->
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource BackgroundBrush}">
+        <controls:HamburgerMenu
+            NavigationLinks="{x:Bind NavigationLinks}"
+            Style="{StaticResource HamburgerMenuStyle}">
+            <controls:HamburgerMenu.HeaderRightContent>
+                <Grid Height="48">
+                    <TextBlock 
+                        Visibility="{x:Bind RadioViewModel.IsOffline, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                        Text="Offline" 
+                        Margin="12,0" 
+                        VerticalAlignment="Center"/>
+                </Grid>
+            </controls:HamburgerMenu.HeaderRightContent>
+        </controls:HamburgerMenu>
+        <controls:ProgressOverlay
+            ProgressObject="{x:Bind RadioViewModel.ProgressObject}"/>
+    </Grid>
+</Page>
